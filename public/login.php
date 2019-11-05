@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	if($usu===false){
         $error = 'Revise usuario y contraseña';
-		$usuario = $_POST['user'];
+		$usuario = $_POST['usuario'];
 	}else{
 		session_start();
 		// $usu tiene campos correo y codRes, correo 
