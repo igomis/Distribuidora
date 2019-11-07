@@ -8,6 +8,7 @@ si va mal, mensaje de error */
 
 if(isset($_GET["redirigido"])) $error = 'Haga login para continuar';
 else $error = '';
+$usuario = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {  
 	
@@ -25,37 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		return;
 	}	
 }
-?>
+echo $blade->render('login',compact('usuario','error'));
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Formulario de login</title>
-		<meta charset = "UTF-8">
-        <link href="/css/distribuidora.css" rel="stylesheet">
-	</head>
-	<body>
-    <div id='login'>
-		<form action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method = "POST">
-            <fieldset>
-                <legend>Login</legend>
-                <div>
-                    <span class='error'><?= $error ?></span>
-                </div>
-                <div class='campo'>
-                    <label for = "usuario">Usuari</label>
-                    <input value = "<?php if(isset($usuario))echo $usuario;?>" id = "usuario" name = "usuario" type = "text" maxlength="50" />
-                </div>
-                <div class='campo'>
-                    <label for = "clave">Clau</label>
-                    <input id = "clave" name = "clave" type = "password"  maxlength="50" />
-                </div>
-                <div class='campo' style='text-align: center'>
-                    <input type = "submit" class="boton" name="enviar" value="enviar">
-                </div>
-            </fieldset>
-		</form>
-    </div>
-	</body>
-</html>
-<body>
+
+

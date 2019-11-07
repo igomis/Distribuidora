@@ -1,33 +1,28 @@
 <?php
-    require 'header.php';
+    use App\shoppingCart;
+    require '../config/load.php';
     $cat = loadCategory($_GET['category']);
-    $products = loadProductsCategory($_GET['category']);
+    $cart = new shoppingCart();
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        $id = $_POST['id'];
-        if(isset($_SESSION['order'][$id])){
-            $_SESSION['order'][$id] += (int)$_POST['amount'];
-        }else{
-            $_SESSION['order'][$id] = (int)$_POST['amount'];
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST['comprar']))
+            $cart->add($_POST['cod'],(int)$_POST['unidades']);
+        if (isset($_POST['actualizar'])){
+            $cart->set($_POST['cod'],(int)$_POST['unidades']);
+        }
+        if (isset($_POST['eliminar'])){
+            $cart->delete($_POST['cod']);
         }
     }
-?>
-    <div id="encabezado">
-        <h1>Productes categoria <?= $cat->name ?></h1>
-    </div>
-    <div id="cesta" style="text-align:center">
-        <?php require_once "order.php" ?>
-    </div>
-    <div id="productos">
-        <?php foreach($products as $product){ ?>
-        <p>
-        <form id='<?= $product->id ?>'  method='post'>
-            <label><?= $product->name ?> - <?= $product->description  ?>(<?= $product->stock ?>)</label>
-            <input name = 'id' type='hidden' value = '<?= $product->id ?>'>
-            <input name = 'amount' type='number' min = '1' value = '1'>
-            <input type = 'submit' value='Comprar'>
-        </form>
-        </p>
-        <?php }; ?>
-    </div>
-<?php require 'footer.php'; ?>
+
+    $titleView = "Productes categoria $cat->name";
+    $products = loadProductsCategory($cat->id);
+    $productosCar = $cart->loadProducts();
+    echo $blade->render('products',compact('products','titleView','productosCar'));
+
+
+
+
+
+

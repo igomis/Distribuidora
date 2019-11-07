@@ -1,21 +1,24 @@
 <?php
 use App\mail;
-require 'header.php';
+use App\shoppingCart;
+require '../config/load.php';
 
-$error = '';
-$idOrder = addOrder($_SESSION['order'], $_SESSION['user']->id);
-if($idOrder === FALSE) $error = "No s'ha pogut realitzar la comanda";
-else{
+$cart = new shoppingCart();
+$resul = $cart->processOrder($_SESSION['user']->id);
 
-	$mail = new mail($_SESSION['order'], $idOrder, $_SESSION['user']->mailAdress);
-	$resul =$mail->send();
-	if($resul !==TRUE) $error = "Error al enviar correu a ". $_SESSION['user']->mailAdress;
-	$_SESSION['order'] = [];
-}
-?>
-<div id="encabezado">
-	<h1>Processant Comanda <?= $_SESSION['user']->id ?></h1>
-	<p><?= empty($error)?'Comanda Processada amb èxit':$error; ?></p>
-</div>
-<?php require 'footer.php';?>
-	
+if($resul === true && !$cart->isEmpty()){
+    $correo = $_SESSION['user']->mailAdress;
+    $message =  "Comanda realitzada amb èxit. Se enviarà un correu de confirmació a: $correo ";
+    $mail = new mail($cart->getOrder(), $resul, $correo);
+    $resul = $mail->send();
+    if($resul !== TRUE){
+        $message =  "Error a l'enviar: $resul <br>";
+    };
+    $cart->empty();
+} else $message = "No s'ha pogut processar la comanda: ".$resul;
+$titleView = "Comanda processada";
+echo $blade->render('processOrder',compact('message','titleView'));
+
+
+
+

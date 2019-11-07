@@ -90,6 +90,14 @@ function checkSession(){
 
 }
 
+function addProduct($categoria,$nom,$descripcio,$stock,$preu){
+    $bd = new bd();
+    $sql = "INSERT INTO Products(name,description,stock,idCategory,price) VALUES ('$nom','$descripcio','$stock','$categoria',$preu)";
+    //dd($sql);
+    if ($bd->exec($sql)) echo "<p>Producte Afegit</p>";
+    else echo "<p>No s'ha pogut afegir el producte</p>";
+}
+
 function dd($var){
     var_dump($var);
     exit();
