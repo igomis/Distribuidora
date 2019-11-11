@@ -8,6 +8,7 @@
 namespace App;
 
 use PHPMailer\PHPMailer\PHPMailer;
+use App\shoppingCart;
 
 class mail
 {
@@ -34,7 +35,8 @@ class mail
     }
 
     private function doMsgHTML(){
-        $products = loadProducts(array_keys($this->order));
+        $cart = new shoppingCart();
+        $products = $cart->loadProducts();
         $text = "<h1>Pedido nº $this->id </h1><h2>Restaurante: $this->email </h2>";
         $text .= "Detalle del pedido:";
         $text .= "<table>"; //abrir la tabla

@@ -4,25 +4,7 @@
 use App\bd;
 
 
-function loadProductsCategory($id){
-    $bd = new bd();
-	$sth= $bd->prepare("select * from Products where idCategory  = :id");
-    $resul = $sth->execute(['id'=>$id]);
-	if (!$resul) return [];
-    return $sth->fetchAll(PDO::FETCH_OBJ);
-}
 
-
-
-// recibe un array de códigos de productos
-// devuelve un cursor con los datos de esos productos
-function loadProducts(Array $ids){
-    $bd = new bd();
-    $setProducts = implode(",", $ids);
-    $resul = $bd->query( "select * from Products where id in($setProducts)");
-    if (!$resul) return FALSE;
-    return $resul->fetchAll(PDO::FETCH_OBJ);
-}
 
 function addOrder($order, $idShop){
     $bd = new bd();

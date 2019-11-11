@@ -15,7 +15,6 @@ class Product extends EntidadBase
 
     protected static $table = "Products";
     protected static $index =  "id";
-
-
+    
 }
 
