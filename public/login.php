@@ -1,4 +1,5 @@
 <?php
+use App\Shop;
 require dirname(__FILE__) . "/../config/load.php";
 
 
@@ -12,15 +13,15 @@ $usuario = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {  
 	
-	$usu = checkLogin($_POST['usuario'], $_POST['clave']);
+	$shop = Shop::checkLogin($_POST['usuario'], $_POST['clave']);
 
-	if($usu===false){
+	if($shop===false){
         $error = 'Revise usuario y contraseña';
 		$usuario = $_POST['usuario'];
 	}else{
 		session_start();
 		// $usu tiene campos correo y codRes, correo 
-		$_SESSION['user'] = $usu;
+		$_SESSION['user'] = $shop;
 		$_SESSION['order'] = [];
 		header("Location: categories.php");
 		return;

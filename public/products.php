@@ -1,8 +1,12 @@
 <?php
     use App\shoppingCart;
+    use App\Category;
+    use App\Product;
     require '../config/load.php';
-    $cat = loadCategory($_GET['category']);
+    $cat = new Category($_GET['category']);
+
     $cart = new shoppingCart();
+    $product = new Product();
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,7 +21,7 @@
     }
 
     $titleView = "Productes categoria $cat->name";
-    $products = loadProductsCategory($cat->id);
+    $products = $product->getbyColum('idCategory',$cat->id);
     $productosCar = $cart->loadProducts();
     echo $blade->render('products',compact('products','titleView','productosCar'));
 

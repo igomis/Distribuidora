@@ -3,30 +3,7 @@
 
 use App\bd;
 
-function checkLogin($email, $pass){
-	$bd = new bd();
-	$sth = $bd->prepare("SELECT id, mailAdress FROM Shops WHERE mailAdress LIKE :email AND password LIKE :pass");
-	$resul = $sth->execute(['email' => $email,'pass' => $pass]);
-	if($resul){
-		return $sth->fetch(PDO::FETCH_OBJ);
-	}else{
-		return FALSE;
-	}
-}
-function loadCategories(){
-    $bd = new bd();
-    $sth = $bd->prepare("select * from Categories");
-    $resul = $sth->execute();
-	if (!$resul) return [];
-	return $sth->fetchAll(PDO::FETCH_OBJ);
-}
-function loadCategory($id){
-    $bd = new bd();
-	$sth = $bd->prepare( "select * from Categories where id = :id");
-    $resul = $sth->execute(['id'=>$id]);
-	if (!$resul) return [];
-    return $sth->fetch(PDO::FETCH_OBJ);
-}
+
 function loadProductsCategory($id){
     $bd = new bd();
 	$sth= $bd->prepare("select * from Products where idCategory  = :id");
@@ -36,15 +13,6 @@ function loadProductsCategory($id){
 }
 
 
-// recibe un array de códigos de productos
-// devuelve un cursor con los datos de esos productos
-function loadProduct($id){
-    $bd = new bd();
-    $sth= $bd->prepare("select * from Products where id  = :id");
-    $resul = $sth->execute(['id'=>$id]);
-    if (!$resul) return [];
-    return $sth->fetch(PDO::FETCH_OBJ);
-}
 
 // recibe un array de códigos de productos
 // devuelve un cursor con los datos de esos productos
@@ -90,13 +58,6 @@ function checkSession(){
 
 }
 
-function addProduct($categoria,$nom,$descripcio,$stock,$preu){
-    $bd = new bd();
-    $sql = "INSERT INTO Products(name,description,stock,idCategory,price) VALUES ('$nom','$descripcio','$stock','$categoria',$preu)";
-    //dd($sql);
-    if ($bd->exec($sql)) echo "<p>Producte Afegit</p>";
-    else echo "<p>No s'ha pogut afegir el producte</p>";
-}
 
 function dd($var){
     var_dump($var);
