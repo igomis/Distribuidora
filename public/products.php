@@ -6,7 +6,7 @@
     $cat = new Category($_GET['category']);
 
     $cart = new shoppingCart();
-    $product = new Product();
+
 
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -21,7 +21,7 @@
     }
 
     $titleView = "Productes categoria $cat->name";
-    $products = $product->getbyColum('idCategory',$cat->id);
+    $products = Product::getbyColum('idCategory',$cat->id);
     $productosCar = $cart->loadProducts();
     echo $blade->render('products',compact('products','titleView','productosCar'));
 
