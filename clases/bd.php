@@ -24,7 +24,7 @@ class bd extends \PDO
     }
 
     private function leer_config(){
-        $config = require '../config/database.php';
+        $config = require $_SERVER['DOCUMENT_ROOT'].'/../config/database.php';
         if (!$config){
             throw new InvalidArgumentException("Revise fichero de configuración");
         }
